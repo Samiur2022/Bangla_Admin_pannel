@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সফট ইউআই ড্যাশবোর্ড</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
+                        'soft-dark': '0 4px 20px 0 rgba(0, 0, 0, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link.active {
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
+                z-index: 40;
+            }
+            .sidebar-open {
+                transform: translateX(0);
+            }
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 30;
+            }
+            .overlay-open {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 h-full">
+    <!-- Mobile Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar w-64 bg-white dark:bg-dark-900 shadow-md flex flex-col">
+            <div class="p-4 flex items-center justify-between border-b dark:border-gray-700">
+                <h1 class="text-xl font-bold text-primary-600 dark:text-primary-400">কোম্পানির নাম </h1>
+                <button id="close-sidebar" class="md:hidden text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+             <div class="flex-1 overflow-y-auto p-4">
+                <nav>
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#" class="nav-link  flex items-center p-3 text-sm rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                ড্যাশবোর্ড
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link active flex items-center p-3 text-sm rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                প্রোফাইল
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link flex items-center p-3 text-sm rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                টেবিল
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link flex items-center p-3 text-sm rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                সেটিংস
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="p-4 border-t dark:border-gray-700">
+                <div class="flex items-center">
+                    <img src="https://i.pravatar.cc/150?img=3" alt="User" class="w-10 h-10 rounded-full">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">আপনার নাম</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">অ্যাডমিন</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Topbar - Same color as sidebar -->
+            <header class="bg-white dark:bg-dark-900 shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center">
+                        <button id="mobile-menu-button" class="mr-4 text-gray-500 dark:text-gray-400 md:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">ড্যাশবোর্ড</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                            <span class="dark:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                            </span>
+                            <span class="hidden dark:inline">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="relative">
+                            <button id="dropdown-toggle" class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-200">
+                                <span class="mr-2">অ্যাডমিন</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-dark-800 rounded-md shadow-lg py-1 z-20">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">প্রোফাইল</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">সেটিংস</a>
+                                <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">লগআউট</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
+                <!-- Your content here -->
+                 <!-- Content -->
+            
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- Stats Cards -->
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">মোট ব্যবহারকারী</p>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">২,৩০০</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-green-600 dark:text-green-400 mt-2">
+                            <span class="font-semibold">+৩.৪৮%</span> গত মাস থেকে
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">মোট বিক্রয়</p>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">৳ ৩৪,০০০</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-green-100 dark:bg-green-900/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-green-600 dark:text-green-400 mt-2">
+                            <span class="font-semibold">+৫.২%</span> গত মাস থেকে
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">নতুন অর্ডার</p>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">১২৪</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-orange-100 dark:bg-orange-900/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-red-600 dark:text-red-400 mt-2">
+                            <span class="font-semibold">-২.৮২%</span> গত মাস থেকে
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">ট্রাফিক</p>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">১.২K</h3>
+                            </div>
+                            <div class="p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-green-600 dark:text-green-400 mt-2">
+                            <span class="font-semibold">+০.৯১%</span> গত মাস থেকে
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Recent Orders -->
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">সাম্প্রতিক অর্ডার</h3>
+                            <button class="text-sm text-primary-600 dark:text-primary-400 font-medium">সব দেখুন</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">অর্ডার আইডি</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">গ্রাহক</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">স্ট্যাটাস</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">তারিখ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#৪৫৬৮৯</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">আব্দুল করিম</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">সম্পূর্ণ</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">১২/০৫/২০২৩</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#৪৫৬৮৮</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">রহিমা খাতুন</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">প্রক্রিয়াধীন</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">১১/০৫/২০২৩</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#৪৫৬৮৭</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">জাহিদ হাসান</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">বাতিল</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">১০/০৫/২০২৩</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Recent Users -->
+                    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-soft dark:shadow-soft-dark p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">সাম্প্রতিক ব্যবহারকারী</h3>
+                            <button class="text-sm text-primary-600 dark:text-primary-400 font-medium">সব দেখুন</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/40" alt="User">
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">আব্দুল করিম</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">karim@example.com</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">২ ঘণ্টা আগে</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/40" alt="User">
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">রহিমা খাতুন</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">rahima@example.com</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">১ দিন আগে</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/40" alt="User">
+                                <div class="ml-4">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">জাহিদ হাসান</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">jahid@example.com</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">৩ দিন আগে</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+            </main>
+
+            <!-- Footer - Same color as sidebar -->
+            <footer class="bg-white dark:bg-dark-900 shadow-md py-3 px-6 ">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">© ২০২৪ সফট ইউআই ড্যাশবোর্ড</p>
+                    <div class="flex items-center space-x-4">
+                        <span id="footer-clock" class="text-sm font-medium text-gray-700 dark:text-gray-300"></span>
+                        <span id="footer-date" class="text-sm text-gray-500 dark:text-gray-400"></span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+     <!-- Logout Modal -->
+    <div id="logout-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-dark-800 rounded-lg p-6 max-w-md w-full">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">লগআউট নিশ্চিত করুন</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">আপনি কি নিশ্চিতভাবে লগআউট করতে চান?</p>
+            <div class="flex justify-end space-x-3">
+                <button id="cancel-logout" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg">বাতিল</button>
+                <button id="confirm-logout" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">লগআউট</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('sidebar-open');
+            overlay.classList.toggle('overlay-open');
+        }
+
+        mobileMenuButton.addEventListener('click', toggleSidebar);
+        closeSidebarButton.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Check saved theme or system preference
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Live Clock and Date
+        function updateClock() {
+            const now = new Date();
+            
+            // Time in 12-hour format
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            
+            // Date formats
+            const day = now.getDate();
+            const month = now.toLocaleString('default', { month: 'short' });
+            const year = now.getFullYear().toString().slice(-2);
+            
+            document.getElementById('footer-clock').textContent = `${hours}:${minutes} ${ampm}`;
+            document.getElementById('footer-date').textContent = `${day}${month}${year}`;
+        }
+
+        // Update every minute
+        updateClock();
+        setInterval(updateClock, 60000);
+
+        // Dropdown Menu
+        const dropdownToggle = document.getElementById('dropdown-toggle');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            dropdownMenu.classList.add('hidden');
+        });
+
+        // Logout Modal
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutModal = document.getElementById('logout-modal');
+        const cancelLogout = document.getElementById('cancel-logout');
+        const confirmLogout = document.getElementById('confirm-logout');
+
+        logoutBtn.addEventListener('click', () => {
+            logoutModal.classList.remove('hidden');
+            dropdownMenu.classList.add('hidden');
+        });
+
+        cancelLogout.addEventListener('click', () => {
+            logoutModal.classList.add('hidden');
+        });
+
+        confirmLogout.addEventListener('click', () => {
+            alert('সফলভাবে লগআউট করা হয়েছে!');
+            logoutModal.classList.add('hidden');
+        });
+
+        // Active Nav Link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

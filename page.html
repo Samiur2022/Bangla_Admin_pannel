@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="[color-scheme:light]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Modern E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .mega-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .mega-menu.active {
+            display: grid;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .cart-count {
+            top: -8px;
+            right: -8px;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        .dark .glass-effect {
+            background-color: rgba(17, 24, 39, 0.85);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Header & Mega Menu -->
+    <header class="sticky top-0 z-50 glass-effect shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="text-2xl font-bold text-primary dark:text-white">Shop<span class="text-secondary">Ease</span></a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-1 text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-secondary transition-colors">
+                            <span>Categories</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <!-- Mega Menu -->
+                        <div class="mega-menu absolute left-0 mt-2 w-screen max-w-6xl bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 grid grid-cols-4 gap-6 border border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Electronics</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Smartphones</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Laptops</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Headphones</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Fashion</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Men's Wear</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Women's Wear</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Accessories</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Home & Living</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Furniture</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Kitchenware</a></li>
+                                    <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Decor</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Deals</h4>
+                                <div class="bg-gradient-to-r from-primary to-secondary p-4 rounded-lg text-white">
+                                    <p class="font-medium">Summer Sale!</p>
+                                    <p class="text-sm mt-1">Up to 50% off</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-secondary">New Arrivals</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-secondary">Deals</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-secondary">About Us</a>
+                </nav>
+
+                <!-- Icons (Cart, User, Dark Mode) -->
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
+                    <div class="relative">
+                        <button id="cart-btn" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count absolute bg-primary text-white rounded-full flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <button id="login-btn" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-12 lg:py-20 bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-4">Summer Collection 2023</h1>
+            <p class="text-xl lg:text-2xl mb-8">Up to 50% off on selected items</p>
+            <button class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">Shop Now</button>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-12 lg:py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Featured Products</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-64 object-cover">
+                        <span class="absolute top-2 right-2 bg-secondary text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg text-gray-800 dark:text-white mb-1">Wireless Headphones</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm ml-2">(42)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900 dark:text-white">$99.99</span>
+                            <button class="bg-primary text-white p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-64 object-cover">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</span>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg text-gray-800 dark:text-white mb-1">Smart Watch Pro</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm ml-2">(36)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-gray-900 dark:text-white">$199.99</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 line-through ml-2">$249.99</span>
+                            </div>
+                            <button class="bg-primary text-white p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg text-gray-800 dark:text-white mb-1">Bluetooth Speaker</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm ml-2">(58)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900 dark:text-white">$79.99</span>
+                            <button class="bg-primary text-white p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                    <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg text-gray-800 dark:text-white mb-1">Gaming Laptop</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-300 text-sm ml-2">(24)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900 dark:text-white">$1,299.99</span>
+                            <button class="bg-primary text-white p-2 rounded-full hover:bg-indigo-700 transition-colors">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-12 lg:py-16 bg-gray-100 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-mobile-alt text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Phones</h3>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-laptop text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Laptops</h3>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-tshirt text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Fashion</h3>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-home text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Home</h3>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-gamepad text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Gaming</h3>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-700 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-headphones text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-gray-800 dark:text-white">Audio</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Join Our Newsletter</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Subscribe to get updates on new products and exclusive offers.</p>
+            <div class="flex flex-col sm:flex-row justify-center max-w-md mx-auto gap-2">
+                <input type="email" placeholder="Your email address" class="px-4 py-3 rounded-lg w-full text-gray-800">
+                <button class="bg-secondary text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-600 transition-colors">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">ShopEase</h3>
+                    <p class="mb-4">Your one-stop shop for all your needs.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white">All Products</a></li>
+                        <li><a href="#" class="hover:text-white">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-white">Featured</a></li>
+                        <li><a href="#" class="hover:text-white">Deals</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="hover:text-white">Shipping</a></li>
+                        <li><a href="#" class="hover:text-white">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p>&copy; 2023 ShopEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login/Register Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Welcome Back</h3>
+                <button id="close-auth-modal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-6">
+                <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 rounded-lg mb-3 flex items-center justify-center space-x-2">
+                    <i class="fab fa-google text-red-500"></i>
+                    <span>Continue with Google</span>
+                </button>
+                <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 rounded-lg flex items-center justify-center space-x-2">
+                    <i class="fab fa-facebook-f text-blue-600"></i>
+                    <span>Continue with Facebook</span>
+                </button>
+            </div>
+            <div class="flex items-center mb-6">
+                <div class="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+                <span class="px-4 text-gray-500 dark:text-gray-400">or</span>
+                <div class="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <form>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors mb-4">Sign In</button>
+                <div class="text-center">
+                    <p class="text-gray-600 dark:text-gray-400">Don't have an account? <button id="switch-to-register" class="text-primary hover:underline">Register</button></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden">
+        <div class="bg-white dark:bg-gray-800 h-full w-4/5 max-w-sm ml-auto p-6">
+            <div class="flex justify-between items-center mb-8">
+                <a href="#" class="text-2xl font-bold text-primary dark:text-white">Shop<span class="text-secondary">Ease</span></a>
+                <button id="close-mobile-menu" class="text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="space-y-4">
+                <div>
+                    <button class="flex items-center justify-between w-full text-gray-700 dark:text-gray-200 py-2">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="pl-4 mt-2 space-y-2 hidden">
+                        <a href="#" class="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Electronics</a>
+                        <a href="#" class="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Fashion</a>
+                        <a href="#" class="block text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-secondary">Home & Living</a>
+                    </div>
+                </div>
+                <a href="#" class="block text-gray-700 dark:text-gray-200 py-2 hover:text-primary dark:hover:text-secondary">New Arrivals</a>
+                <a href="#" class="block text-gray-700 dark:text-gray-200 py-2 hover:text-primary dark:hover:text-secondary">Deals</a>
+                <a href="#" class="block text-gray-700 dark:text-gray-200 py-2 hover:text-primary dark:hover:text-secondary">About Us</a>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Mega Menu Toggle
+        const megaMenuBtn = document.querySelector('.group button');
+        const megaMenu = document.querySelector('.mega-menu');
+
+        megaMenuBtn.addEventListener('click', () => {
+            megaMenu.classList.toggle('active');
+        });
+
+        // Close mega menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.group')) {
+                megaMenu.classList.remove('active');
+            }
+        });
+
+        // Auth Modal
+        const authModal = document.getElementById('auth-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const closeAuthModal = document.getElementById('close-auth-modal');
+
+        loginBtn.addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+        });
+
+        closeAuthModal.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
